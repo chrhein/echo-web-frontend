@@ -5,9 +5,11 @@ import Section from './section';
 const StaticInfo = ({
     tabNames,
     tabPanels,
+    noSection,
 }: {
     tabNames: Array<string>;
     tabPanels: Array<React.ReactNode>;
+    noSection: Array<boolean>;
 }): JSX.Element => {
     return (
         <Tabs isLazy orientation="vertical" data-testid="static-info">
@@ -30,15 +32,14 @@ const StaticInfo = ({
                     </Section>
                 </GridItem>
                 <GridItem minW="0" maxW="100%" colStart={[1, null, null, 2]} colSpan={[1, null, null, 3]} rowSpan={2}>
-                    <Section>
-                        <TabPanels>
-                            {tabPanels.map((node: React.ReactNode, index: number) => (
-                                <TabPanel key={index.toString()} data-testid={`${index.toString()}-tabPanel`} p="0">
-                                    {node}
-                                </TabPanel>
-                            ))}
-                        </TabPanels>
-                    </Section>
+                    <TabPanels>
+                        {tabPanels.map((node: React.ReactNode, index: number) => (
+                            <TabPanel key={index.toString()} data-testid={`${index.toString()}-tabPanel`} p="0">
+                                {!noSection[index] && <Section key={index.toString()}>{node}</Section>}
+                                {noSection[index] && node}
+                            </TabPanel>
+                        ))}
+                    </TabPanels>
                 </GridItem>
             </Grid>
         </Tabs>

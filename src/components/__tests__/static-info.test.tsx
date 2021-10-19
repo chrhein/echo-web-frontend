@@ -10,6 +10,7 @@ const markdownFiles = [
     '# enda mer damn ja what sjukt bruh moment',
     '## lorem ipsum dolor sit amet [link](https://google.com)',
 ];
+const noSection = [false, false, true];
 
 describe('StaticInfo', () => {
     test('renders without crashing', () => {
@@ -23,6 +24,7 @@ describe('StaticInfo', () => {
                         </Markdown>
                     );
                 })}
+                noSection={noSection}
             />,
         );
         expect(getByTestId(/static-info/i)).toBeInTheDocument();
@@ -39,6 +41,7 @@ describe('StaticInfo', () => {
                         </Markdown>
                     );
                 })}
+                noSection={noSection}
             />,
         );
 

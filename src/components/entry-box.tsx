@@ -1,6 +1,6 @@
 import { Center, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
 import React from 'react';
-import { Happening, Post } from '../lib/api';
+import { Happening, Post, JobAdvert } from '../lib/api';
 import ButtonLink from './button-link';
 import EntryList from './entry-list';
 import ErrorBox from './error-box';
@@ -9,12 +9,12 @@ import Section from './section';
 interface Props {
     title?: string;
     titles?: Array<string>;
-    entries: Array<Happening | Post> | null;
+    entries: Array<Happening | Post | JobAdvert> | null;
     entryLimit: number;
     error: string | null;
     altText?: string;
     linkTo?: string;
-    type: 'event' | 'bedpres' | 'post';
+    type: 'event' | 'bedpres' | 'post' | 'job-advert';
     direction: 'column' | 'row';
 }
 

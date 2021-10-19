@@ -1,10 +1,33 @@
 import { SanityAPI } from './api';
-import { HappeningAPI, HappeningType, Happening } from './happening';
-import { MinuteAPI, Minute } from './minute';
-import { PostAPI, Post } from './post';
-import { Degree, RegistrationAPI, Registration, SpotRangeCount } from './registration';
-import { StudentGroupAPI, Profile, Role, StudentGroup } from './student-group';
 import { SpotRange, Question } from './decoders';
+import { Happening, HappeningAPI, HappeningType } from './happening';
+import { JobAdvert, JobAdvertAPI } from './job-advert';
+import { Minute, MinuteAPI } from './minute';
+import { PostAPI, Post } from './post';
+import { Degree, Registration, RegistrationAPI, SpotRangeCount } from './registration';
+import { Profile, Role, StudentGroup, StudentGroupAPI } from './student-group';
 
-export { SanityAPI, HappeningAPI, HappeningType, MinuteAPI, PostAPI, Degree, RegistrationAPI, StudentGroupAPI };
-export type { Happening, Minute, Post, Registration, SpotRange, SpotRangeCount, StudentGroup, Profile, Role, Question };
+export {
+    Degree,
+    HappeningAPI,
+    HappeningType,
+    JobAdvertAPI,
+    MinuteAPI,
+    PostAPI,
+    RegistrationAPI,
+    SanityAPI,
+    StudentGroupAPI,
+};
+export type {
+    Happening,
+    JobAdvert,
+    Minute,
+    Post,
+    Profile,
+    Question,
+    Registration,
+    Role,
+    SpotRange,
+    SpotRangeCount,
+    StudentGroup,
+};
