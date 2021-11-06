@@ -1,5 +1,20 @@
-import { VStack } from '@chakra-ui/react';
-import { format } from 'date-fns';
+import {
+    Button,
+    Center,
+    HStack,
+    Link,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useColorModeValue,
+    useDisclosure,
+    VStack,
+} from '@chakra-ui/react';
+import { addHours, format } from 'date-fns';
 import { nb } from 'date-fns/locale';
 import React from 'react';
 import { BiCalendar } from 'react-icons/bi';
@@ -8,8 +23,10 @@ import { ImLocation } from 'react-icons/im';
 import { IoMdListBox } from 'react-icons/io';
 import { MdEventSeat, MdLockOutline, MdLogout } from 'react-icons/md';
 import { RiTimeLine } from 'react-icons/ri';
+import AddToCalendarHOC, { SHARE_SITES } from 'react-add-to-calendar-hoc';
 import { SpotRange, SpotRangeCount } from '../lib/api';
 import IconText from './icon-text';
+import ButtonLink from './button-link';
 
 interface Props {
     date: Date;
@@ -19,6 +36,12 @@ interface Props {
     companyLink: string | null;
     spotRangeCounts: Array<SpotRangeCount> | null;
     spotRangesFromCms: Array<SpotRange> | null;
+}
+
+interface ModalProps {
+    children: [];
+    isOpen: boolean;
+    onRequestClose: () => void;
 }
 
 const HappeningMetaInfo = ({
@@ -52,6 +75,45 @@ const HappeningMetaInfo = ({
 
     const dontShowDegreeYear =
         (minDegreeYear === 1 && maxDegreeYear === 5 && trueSpotRanges.length === 1) || trueSpotRanges.length === 1;
+
+    const { isOpen, onClose } = useDisclosure();
+
+    const CustomModal = ({ children, isOpen, onRequestClose }: ModalProps) => {
+        return (
+            <Modal isOpen={isOpen} onClose={onRequestClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Legg til i din kalender</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Center>
+                            <HStack>
+                                {children.map((child: JSX.Element, index: number) => {
+                                    return (
+                                        <ButtonLink
+                                            key={index}
+                                            text={child.key?.toString() || ''}
+                                            linkTo={child.props.href}
+                                        />
+                                    );
+                                })}
+                            </HStack>
+                        </Center>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+        );
+    };
+
+    const AddToCalendarModal = AddToCalendarHOC(Button, CustomModal);
+
+    const addToCalendarEvent = {
+        duration: 4,
+        endDatetime: format(addHours(date, 4), 'yyyymmddthhmmssz'),
+        location: location,
+        startDatetime: format(date, 'yyyymmddthhmmssz'),
+        title: title,
+    };
 
     return (
         <VStack alignItems="left" spacing={3}>
@@ -111,6 +173,13 @@ const HappeningMetaInfo = ({
                     }. trinn`}
                 />
             )}
+            <AddToCalendarModal
+                buttonText="Legg til i kalender"
+                event={addToCalendarEvent}
+                isOpen={isOpen}
+                onRequestClose={onClose}
+                items={[SHARE_SITES.GOOGLE, SHARE_SITES.ICAL]}
+            />
         </VStack>
     );
 };
